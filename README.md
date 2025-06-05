@@ -1,10 +1,10 @@
 # Cesium Globe Game
 
-This simple web page lets you play the childhood globe spin game using [CesiumJS](https://cesium.com/platform/cesiumjs/). Click **Spin** to rotate the globe for a few seconds. A semi-transparent circle – the "finger" – follows your mouse at all times. When the spin stops, the game reports the latitude and longitude beneath your finger.
+This simple web page lets you play the childhood globe spin game using [CesiumJS](https://cesium.com/platform/cesiumjs/). Click **Spin** to rotate the globe for a few seconds. A semi-transparent circle – the "finger" – follows your mouse at all times. When the spin stops, the game reports the latitude and longitude beneath your finger and looks up the nearest city (or ocean) using the free Nominatim service from OpenStreetMap.
 
 ## Running
 
-Open `index.html` in any modern web browser with internet access. The page loads CesiumJS from a CDN, so no build step is required. If the globe does not appear when opening the file directly, try serving the folder with a simple HTTP server (for example `npx serve`).
+Open `index.html` in any modern web browser with internet access. The page loads CesiumJS from a CDN and queries OpenStreetMap to resolve the final location, so an internet connection is required. If the globe does not appear when opening the file directly, try serving the folder with a simple HTTP server (for example `npx serve`).
 
 ## Deployment
 

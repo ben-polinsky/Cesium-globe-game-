@@ -22,6 +22,21 @@ const container = document.getElementById('cesiumContainer');
 // show the finger overlay immediately
 fingerEl.style.display = 'block';
 
+async function fetchNearestPlace(lat, lon) {
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Failed request');
+        const data = await response.json();
+        const addr = data.address || {};
+        const place = addr.city || addr.town || addr.village || addr.hamlet || addr.state || addr.country;
+        return place || 'the ocean';
+    } catch (err) {
+        console.error(err);
+        return 'an unknown place';
+    }
+}
+
 let fingerX = 0;
 let fingerY = 0;
 
@@ -49,10 +64,9 @@ function spinGlobe() {
                 const cartographic = Cesium.Ellipsoid.WGS84.cartesianToCartographic(cartesian);
                 const lat = Cesium.Math.toDegrees(cartographic.latitude);
                 const lon = Cesium.Math.toDegrees(cartographic.longitude);
-                viewer.camera.flyTo({
-                    destination: Cesium.Cartesian3.fromDegrees(lon, lat, 2000000)
+                fetchNearestPlace(lat, lon).then((place) => {
+                    resultEl.textContent = `You landed near ${place} at ${lat.toFixed(2)}°, ${lon.toFixed(2)}°`;
                 });
-                resultEl.textContent = `You live at: ${lat.toFixed(2)}°, ${lon.toFixed(2)}°`;
             } else {
                 resultEl.textContent = 'Finger is not over the globe.';
             }
