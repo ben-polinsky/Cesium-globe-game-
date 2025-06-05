@@ -56,7 +56,8 @@ function spinGlobe() {
 
     function animateSpin() {
         const delta = Date.now() - start;
-        viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, 0.1);
+        const rotationAngle = (delta / spinDuration) * Math.PI * 2; // Full rotation over spinDuration
+        viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, rotationAngle);
         if (delta < spinDuration) {
             requestAnimationFrame(animateSpin);
         } else {
