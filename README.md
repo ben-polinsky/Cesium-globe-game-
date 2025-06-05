@@ -4,7 +4,7 @@ This simple web page lets you play the childhood globe spin game using [CesiumJS
 
 ## Running
 
-Open `index.html` in any modern web browser with internet access. The page loads CesiumJS from a CDN, and the interactive logic lives in `game.js` next to the HTML file, so no additional build step is required.
+Open `index.html` in any modern web browser with internet access. The page loads CesiumJS from a CDN, so no build step is required. If the globe does not appear when opening the file directly, try serving the folder with a simple HTTP server (for example `npx serve`).
 
 ## Deployment
 
