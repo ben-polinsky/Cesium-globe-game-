@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Globe Spin Game</title>
+    <script>
+        window.CESIUM_BASE_URL =
+            "https://unpkg.com/cesium@1.130.0/Build/Cesium/";
+    </script>
+    <script src="https://unpkg.com/cesium@1.130.0/Build/Cesium/Cesium.js" crossorigin></script>
+    <link
+        href="https://unpkg.com/cesium@1.130.0/Build/Cesium/Widgets/widgets.css"
+        rel="stylesheet"
+    />
+    <style>
+        html, body, #cesiumContainer {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(42, 42, 42, 0.8);
+            padding: 10px;
+            border-radius: 4px;
+            color: white;
+            font-family: sans-serif;
+        }
+        #result {
+            margin-top: 8px;
+        }
+        #finger {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            margin-left: -12px;
+            margin-top: -12px;
+            border-radius: 50%;
+            background: rgba(255, 0, 0, 0.5);
+            pointer-events: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="cesiumContainer"></div>
+    <div id="overlay">
+        <button id="spinButton">Spin</button>
+        <div id="result"></div>
+    </div>
+    <div id="finger"></div>
+    <script src="game.js"></script>
+</body>
+</html>
