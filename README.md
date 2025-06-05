@@ -4,7 +4,11 @@ This simple web page lets you play the childhood globe spin game using [CesiumJS
 
 ## Running
 
-Open `index.html` in any modern web browser with internet access. The page loads CesiumJS from a CDN and queries OpenStreetMap to resolve the final location, so an internet connection is required. If the globe does not appear when opening the file directly, try serving the folder with a simple HTTP server (for example `npx serve`).
+Because Cesium uses Web Workers, the page must be served over HTTP. From this
+folder run a simple local server such as `npx serve` or `python3 -m
+http.server` and then open the reported `http://localhost` URL. The game loads
+CesiumJS from a CDN and queries OpenStreetMap, so an internet connection is
+required.
 
 ## Deployment
 
