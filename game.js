@@ -54,11 +54,12 @@ function spinGlobe() {
     const start = Date.now();
     const spinDuration = 3000; // milliseconds
 
-    const interval = setInterval(() => {
+    function animateSpin() {
         const delta = Date.now() - start;
         viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, 0.1);
-        if (delta >= spinDuration) {
-            clearInterval(interval);
+        if (delta < spinDuration) {
+            requestAnimationFrame(animateSpin);
+        } else {
             const cartesian = viewer.camera.pickEllipsoid(new Cesium.Cartesian2(fingerX, fingerY));
             if (cartesian) {
                 const cartographic = Cesium.Ellipsoid.WGS84.cartesianToCartographic(cartesian);
