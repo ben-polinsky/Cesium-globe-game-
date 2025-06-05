@@ -1,5 +1,6 @@
 // Set up CesiumJS
 Cesium.Ion.defaultAccessToken =
+
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4ZTlhZTM1MC1lNjM0LTRkNTQtYTE3OC02NWI0YjQ3NTAxNzgiLCJpZCI6MjU5LCJpYXQiOjE3NDg4ODUxMzV9.8mGFxgmp1QW0MIdArET4EVn5c7DKlt_HHA_Gnnu7eF4";
 // Initialize the Cesium viewer
 const viewer = new Cesium.Viewer('cesiumContainer', {
@@ -74,7 +75,9 @@ function spinGlobe() {
             }
             spinButton.disabled = false;
         }
-    }, 50);
+
+    };
+    animateSpin();
 }
 
 spinButton.addEventListener('click', spinGlobe);
