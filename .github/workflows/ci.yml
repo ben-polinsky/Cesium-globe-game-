@@ -11,6 +11,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
       - run: npm ci
       - run: npx playwright install --with-deps
       - run: npm test
