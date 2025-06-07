@@ -47,6 +47,28 @@ async function fetchWikiSummary(title) {
     return await response.json();
 }
 
+async function fetchOfficialWebsite(wikibaseId) {
+    if (!wikibaseId) return null;
+    const url = `https://www.wikidata.org/wiki/Special:EntityData/${wikibaseId}.json`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('No wikidata');
+    const data = await response.json();
+    const entity = data.entities && data.entities[wikibaseId];
+    const claim = entity && entity.claims && entity.claims.P856 && entity.claims.P856[0];
+    return claim && claim.mainsnak && claim.mainsnak.datavalue ? claim.mainsnak.datavalue.value : null;
+}
+
+async function fetchImage(title) {
+    const url = `https://api.openverse.org/v1/images/?q=${encodeURIComponent(title)}&page_size=1`;
+    const response = await fetch(url);
+    if (!response.ok) return null;
+    const data = await response.json();
+    if (data.results && data.results.length > 0) {
+        return data.results[0];
+    }
+    return null;
+}
+
 let fingerX = 0;
 let fingerY = 0;
 
@@ -77,16 +99,24 @@ function spinGlobe() {
                 const lat = Cesium.Math.toDegrees(cartographic.latitude);
                 const lon = Cesium.Math.toDegrees(cartographic.longitude);
                 fetchPlaceInfo(lat, lon).then(async (info) => {
-                    const msg = info.waterName
-                        ? `You landed in the ${info.waterName} at ${lat.toFixed(2)}°, ${lon.toFixed(2)}°`
-                        : `You landed near ${info.place} at ${lat.toFixed(2)}°, ${lon.toFixed(2)}°`;
-                    resultEl.textContent = msg;
+                    const locationText = info.waterName
+                        ? `in the ${info.waterName}`
+                        : `near ${info.place}`;
+                    resultEl.textContent = `You landed ${locationText} at ${lat.toFixed(2)}°, ${lon.toFixed(2)}°`;
                     try {
                         const wiki = await fetchWikiSummary(info.waterName || info.place);
+                        const official = await fetchOfficialWebsite(wiki.wikibase_item);
+                        const media = await fetchImage(wiki.title);
                         let html = `<strong>${wiki.title}</strong><br>${wiki.extract}`;
-                        if (wiki.thumbnail && wiki.thumbnail.source) {
+                        if (media && media.thumbnail) {
+                            html += `<br><a href="${media.url}" target="_blank"><img src="${media.thumbnail}" alt="${wiki.title}"></a>`;
+                        } else if (wiki.thumbnail && wiki.thumbnail.source) {
                             html += `<br><img src="${wiki.thumbnail.source}" alt="${wiki.title}">`;
                         }
+                        if (official) {
+                            html += `<br><a href="${official}" target="_blank">Official Website</a>`;
+                        }
+                        html += `<br><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(wiki.title)}" target="_blank">Search videos</a>`;
                         infoOverlay.innerHTML = html;
                         infoOverlay.style.display = 'block';
                     } catch (e) {
