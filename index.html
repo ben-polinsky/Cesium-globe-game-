@@ -45,6 +45,22 @@
             pointer-events: none;
             display: block;
         }
+        #infoOverlay {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            max-width: 300px;
+            background: rgba(42, 42, 42, 0.8);
+            padding: 10px;
+            border-radius: 4px;
+            color: white;
+            font-family: sans-serif;
+            display: none;
+        }
+        #infoOverlay img {
+            max-width: 100%;
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
@@ -54,6 +70,7 @@
         <div id="result"></div>
     </div>
     <div id="finger"></div>
+    <div id="infoOverlay"></div>
     <script src="game.js"></script>
 </body>
 </html>
