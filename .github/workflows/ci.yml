@@ -11,9 +11,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - uses: actions/cache@v3
+      - name: Cache Playwright browsers
+        uses: actions/cache@v3
         with:
-          path: ~/.cache/ms-playwright
+          path: ${{ env.HOME }}/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-playwright-

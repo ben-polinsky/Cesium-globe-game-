@@ -31,8 +31,15 @@ async function fetchPlaceInfo(lat, lon) {
         if (!response.ok) throw new Error('Failed request');
         const data = await response.json();
         const addr = data.address || {};
-        const water = addr.ocean || addr.sea || addr.river || addr.water;
+        let water = addr.ocean || addr.sea || addr.river || addr.water;
         const place = addr.city || addr.town || addr.village || addr.hamlet || addr.state || addr.country;
+        if (!water) {
+            try {
+                water = await fetchWaterBody(lat, lon);
+            } catch (e) {
+                console.error(e);
+            }
+        }
         return { place: place || water || 'the ocean', waterName: water };
     } catch (err) {
         console.error(err);
@@ -65,6 +72,23 @@ async function fetchImage(title) {
     const data = await response.json();
     if (data.results && data.results.length > 0) {
         return data.results[0];
+    }
+    return null;
+}
+
+async function fetchWaterBody(lat, lon) {
+    const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Failed water lookup');
+    const data = await response.json();
+    const info = (data.localityInfo && data.localityInfo.informative) || [];
+    for (const item of info) {
+        const name = item.name || '';
+        const desc = (item.description || '').toLowerCase();
+        if (/ocean|sea|gulf|bay|strait|channel|lake/.test(name.toLowerCase()) ||
+            /ocean|sea|gulf|bay|strait|channel|lake/.test(desc)) {
+            return name;
+        }
     }
     return null;
 }
