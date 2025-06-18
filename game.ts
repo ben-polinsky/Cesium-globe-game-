@@ -24,7 +24,12 @@ const infoOverlay = document.getElementById('infoOverlay');
 // show the finger overlay immediately
 fingerEl.style.display = 'block';
 
-async function fetchPlaceInfo(lat, lon) {
+interface PlaceInfo {
+    place: string;
+    waterName: string | null;
+}
+
+async function fetchPlaceInfo(lat: number, lon: number): Promise<PlaceInfo> {
     const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&email=demo@example.com`;
     try {
         const response = await fetch(url);
@@ -47,14 +52,14 @@ async function fetchPlaceInfo(lat, lon) {
     }
 }
 
-async function fetchWikiSummary(title) {
+async function fetchWikiSummary(title: string): Promise<any> {
     const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error('No wiki page');
     return await response.json();
 }
 
-async function fetchOfficialWebsite(wikibaseId) {
+async function fetchOfficialWebsite(wikibaseId: string | null): Promise<string | null> {
     if (!wikibaseId) return null;
     const url = `https://www.wikidata.org/wiki/Special:EntityData/${wikibaseId}.json`;
     const response = await fetch(url);
@@ -65,7 +70,7 @@ async function fetchOfficialWebsite(wikibaseId) {
     return claim && claim.mainsnak && claim.mainsnak.datavalue ? claim.mainsnak.datavalue.value : null;
 }
 
-async function fetchImage(title) {
+async function fetchImage(title: string): Promise<any | null> {
     const url = `https://api.openverse.org/v1/images/?q=${encodeURIComponent(title)}&page_size=1`;
     const response = await fetch(url);
     if (!response.ok) return null;
@@ -76,7 +81,7 @@ async function fetchImage(title) {
     return null;
 }
 
-async function fetchWaterBody(lat, lon) {
+async function fetchWaterBody(lat: number, lon: number): Promise<string | null> {
     const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`;
     const response = await fetch(url);
     if (!response.ok) throw new Error('Failed water lookup');
@@ -96,7 +101,7 @@ async function fetchWaterBody(lat, lon) {
 let fingerX = 0;
 let fingerY = 0;
 
-container.addEventListener('mousemove', (e) => {
+container.addEventListener('mousemove', (e: MouseEvent) => {
     fingerX = e.clientX;
     fingerY = e.clientY;
     fingerEl.style.left = fingerX + 'px';
@@ -104,7 +109,7 @@ container.addEventListener('mousemove', (e) => {
 });
 
 
-function spinGlobe() {
+function spinGlobe(): void {
     spinButton.disabled = true;
     resultEl.textContent = 'Spinning...';
     const start = Date.now();
