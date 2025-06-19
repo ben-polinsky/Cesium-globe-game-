@@ -2,7 +2,7 @@
 
 This simple web page lets you play the childhood globe spin game using [CesiumJS](https://cesium.com/platform/cesiumjs/). Click **Spin** to rotate the globe for a few seconds. A semi-transparent circle – the "finger" – follows your mouse at all times. When the spin stops, the game reports the latitude and longitude beneath your finger and looks up the nearest city (or ocean) using the free Nominatim service from OpenStreetMap.
 
-The game logic is written in TypeScript and compiled to JavaScript using Node.js' `--experimental-strip-types` flag. Running the build requires Node 20 or later.
+The game logic is written in TypeScript and compiled to JavaScript using Node.js' `--experimental-strip-types` flag. Running the build requires Node 24 or later.
 
 ## Development
 
