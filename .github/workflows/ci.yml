@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches: [ work ]
+    branches: [work]
   pull_request:
 jobs:
   test:
@@ -18,6 +18,6 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-playwright-
-      - run: npm ci
+      - run: pnpm install
       - run: npx playwright install --with-deps
-      - run: npm test
+      - run: pnpm test

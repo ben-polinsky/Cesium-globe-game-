@@ -9,11 +9,11 @@ The game logic is written in TypeScript and compiled to JavaScript using Node.js
 Install dependencies and run the tests, which automatically download the required Playwright browsers:
 
 ```bash
-npm install
-npm test
+pnpm install
+pnpm test
 ```
 
-The `npm test` command runs the build, installs browsers if necessary and then executes the test suite.
+The `pnpm test` command runs the build, installs browsers if necessary and then executes the test suite.
 
 ## Running
 
@@ -35,4 +35,3 @@ npx vercel --prod    # deploy to a production URL
 
 The provided `vercel.json` configures a static deployment so no build step is
 needed.
-

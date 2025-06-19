@@ -1,19 +1,26 @@
 {
   "name": "cesium-globe-game-",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "This simple web page lets you play the childhood globe spin game using [CesiumJS](https://cesium.com/platform/cesiumjs/). Click **Spin** to rotate the globe for a few seconds. A semi-transparent circle – the \"finger\" – follows your mouse at all times. When the spin stops, the game reports the latitude and longitude beneath your finger and looks up the nearest city (or ocean) using the free Nominatim service from OpenStreetMap.",
   "main": "game.js",
+  "type": "module",
   "scripts": {
-    "build": "node --experimental-strip-types build.ts",
-    "start": "npm run build && npx serve .",
-    "test": "npm run build && npx playwright install --with-deps && playwright test"
+    "dev": "vite",
+    "build": "tsc -p . && vite build",
+    "preview": "vite preview",
+    "start": "vite preview",
+    "test": "pnpm run build && npx playwright install --with-deps && pnpm exec playwright test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+
+  "dependencies": {
+    "cesium": "^1.130.0"
+  },
   "devDependencies": {
     "@playwright/test": "^1.52.0",
-    "http-server": "^14.1.1"
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
   }
 }
